@@ -3,60 +3,55 @@
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Navigation() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
-  const navItems = [
-    { href: "/", label: "หน้าแรก" },
-    { href: "/about", label: "เกี่ยวกับ" },
-    { href: "/service", label: "บริการ" },
-    { href: "/contact", label: "ติดต่อ" },
-  ];
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-6">
-        <ul className="flex items-center justify-center gap-8 py-6">
-          {navItems.map((item, index) => (
-            <li key={index} className="relative">
-              <Link
-                href={item.href}
-                className="relative block px-4 py-2 text-gray-700 font-light tracking-wide transition-all duration-300 hover:text-gray-900"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {item.label}
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark shadow">
+      <div className="container-fluid">
+        <Link href="/" className="navbar-brand">
+          MyApp
+        </Link>
 
-                {/* Underline animation */}
-                <span
-                  className={`absolute bottom-0 left-0 h-px bg-gray-900 transition-all duration-300 ease-out ${
-                    hoveredIndex === index ? "w-full" : "w-0"
-                  }`}
-                />
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-controls="navbarNav"
+          aria-expanded={isOpen}
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-                {/* Glow effect */}
-                <span
-                  className={`absolute inset-0 rounded-md bg-gray-50 transition-opacity duration-300 -z-10 ${
-                    hoveredIndex === index ? "opacity-100" : "opacity-0"
-                  }`}
-                />
+        <div
+          className={`navbar-collapse collapse ${isOpen ? "show" : ""}`}
+          id="navbarNav"
+        >
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link href="/" className="nav-link">
+                Home
               </Link>
             </li>
-          ))}
-        </ul>
+            <li className="nav-item">
+              <Link href="/pages/about" className="nav-link">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/pages/services" className="nav-link">
+                Services
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/pages/contact" className="nav-link">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
-
-      {/* Floating indicator */}
-      <div
-        className={`absolute bottom-0 left-1/2 w-8 h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent transition-all duration-500 ${
-          hoveredIndex !== null ? "opacity-100 scale-100" : "opacity-0 scale-75"
-        }`}
-        style={{
-          transform: `translateX(-50%) translateX(${
-            hoveredIndex !== null ? (hoveredIndex - 1.5) * 120 : 0
-          }px)`,
-        }}
-      />
     </nav>
   );
 }
