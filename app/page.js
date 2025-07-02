@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Carousel from "./components/carousel";
+import Card from "./components/card";
 
 export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -127,26 +128,7 @@ export default function HomePage() {
               }`}
               style={{ animationDelay: "0.8s" }}
             >
-              {[
-                { number: "50+", label: "โปรเจกต์สำเร็จ", icon: "🚀" },
-                { number: "3+", label: "ปีประสบการณ์", icon: "⭐" },
-                { number: "100%", label: "ความประทับใจ", icon: "💎" },
-              ].map((stat, index) => (
-                <div key={index} className="col-12 col-md-4">
-                  <div className="card bg-secondary bg-opacity-10 border-0 shadow-sm h-100 stat-card">
-                    <div className="card-body p-4">
-                      <div className="fs-1 mb-2">{stat.icon}</div>
-                      <div
-                        className="fs-2 text-primary fw-bold mb-2 counter"
-                        data-target={stat.number}
-                      >
-                        {stat.number}
-                      </div>
-                      <div className="text-white-50 fs-6">{stat.label}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <Card></Card>
             </div>
           </div>
         </div>

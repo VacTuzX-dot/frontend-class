@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 
 export default function Carousel() {
   useEffect(() => {
@@ -13,151 +13,165 @@ export default function Carousel() {
     {
       src: "/images/slide1.jpg",
       alt: "Slide 1",
-      title: "Example headline.",
-      text: "Some representative placeholder content for the first slide of the carousel.",
-      button: { label: "Sign up today", href: "#" },
-      position: "text-start",
     },
     {
       src: "/images/slide2.png",
       alt: "Slide 2",
-      title: "Another example headline.",
-      text: "Some representative placeholder content for the second slide of the carousel.",
-      button: { label: "Learn more", href: "#" },
-      position: "",
     },
     {
       src: "/images/slide3.png",
       alt: "Slide 3",
-      title: "One more for good measure.",
-      text: "Some representative placeholder content for the third slide of this carousel.",
-      button: { label: "Browse gallery", href: "#" },
-      position: "text-end",
     },
   ];
 
   return (
-    <div
-      id="myCarousel"
-      className="carousel slide mb-6"
-      data-bs-ride="carousel"
-    >
-      {/* Indicators */}
-      <div className="carousel-indicators">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            data-bs-target="#myCarousel"
-            data-bs-slide-to={index}
-            className={index === 0 ? "active" : ""}
-            aria-current={index === 0 ? "true" : undefined}
-            aria-label={`Slide ${index + 1}`}
-          ></button>
-        ))}
-      </div>
+    <>
+      <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
+        {/* Indicators */}
+        <div className="carousel-indicators">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              data-bs-target="#myCarousel"
+              data-bs-slide-to={index}
+              className={index === 0 ? "active" : ""}
+              aria-current={index === 0 ? "true" : undefined}
+              aria-label={`Slide ${index + 1}`}
+            ></button>
+          ))}
+        </div>
 
-      {/* Slides */}
-      <div className="carousel-inner">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`carousel-item ${index === 0 ? "active" : ""}`}
-          >
-            {/* Container สำหรับรูปภาพที่มีความสูงคงที่ */}
+        {/* Slides */}
+        <div className="carousel-inner">
+          {slides.map((slide, index) => (
             <div
-              className="position-relative w-100"
-              style={{ minHeight: "80vh" }}
+              key={index}
+              className={`carousel-item ${index === 0 ? "active" : ""}`}
             >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                className="d-block"
-                style={{
-                  objectFit: "cover", // ครอปรูปให้พอดีกับขนาดที่กำหนด
-                  objectPosition: "center", // จัดตำแหน่งรูปกึ่งกลาง
-                }}
-                priority={index === 0}
-                sizes="100vw"
-              />
-            </div>
-
-            {/* Caption overlay */}
-            <div className="container">
-              <div
-                className={`carousel-caption ${slide.position} d-none d-md-block`}
-              >
-                <h1 className="display-5 fw-bold text-white mb-3">
-                  {slide.title}
-                </h1>
-                <p className="fs-5 text-white-50 mb-4">{slide.text}</p>
-                <p className="mb-0">
-                  <a
-                    className="btn btn-lg btn-primary px-4 py-2"
-                    href={slide.button.href}
-                    role="button"
-                  >
-                    {slide.button.label}
-                  </a>
-                </p>
+              <div className="carousel-image-container">
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  className="d-block w-100 carousel-image"
+                />
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* Controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="prev"
+          aria-label="Previous slide"
+        >
+          <i className="fa-solid fa-arrow-left"></i>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="next"
+          aria-label="Next slide"
+        >
+          <i className="fa-solid fa-arrow-right"></i>
+          <span className="visually-hidden">Next</span>
+        </button>
+
+        <style jsx>{`
+          .carousel-image-container {
+            position: relative;
+            width: 100%;
+            height: 80vh; /* ความสูงหลัก */
+            overflow: hidden;
+            background: #000;
+          }
+
+          .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ครอปรูปให้พอดี ไม่บีบไม่ยืด */
+            object-position: center; /* จัดตำแหน่งรูปกึ่งกลาง */
+          }
+
+          /* Responsive Design */
+          @media (max-width: 992px) {
+            .carousel-image-container {
+              height: 60vh;
+            }
+          }
+
+          @media (max-width: 768px) {
+            .carousel-image-container {
+              height: 50vh;
+            }
+          }
+
+          @media (max-width: 576px) {
+            .carousel-image-container {
+              height: 40vh;
+            }
+          }
+
+          /* ปรับแต่ง Controls */
+          .carousel-control-prev,
+          .carousel-control-next {
+            width: 5%;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+          }
+
+          .carousel-control-prev:hover,
+          .carousel-control-next:hover {
+            opacity: 1;
+          }
+
+          .carousel-control-prev i,
+          .carousel-control-next i {
+            font-size: 1.5rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+          }
+
+          .carousel-control-prev:hover i,
+          .carousel-control-next:hover i {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+          }
+
+          /* ปรับแต่ง Indicators */
+          .carousel-indicators {
+            bottom: 20px;
+          }
+
+          .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+          }
+
+          .carousel-indicators button.active {
+            background-color: rgba(222, 0, 0, 1);
+            transform: scale(1.2);
+          }
+
+          /* Smooth Transitions */
+          .carousel-item {
+            transition: transform 0.6s ease-in-out;
+          }
+        `}</style>
       </div>
-
-      {/* Controls */}
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="prev"
-        aria-label="Previous slide"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="next"
-        aria-label="Next slide"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .carousel-inner .position-relative {
-            height: 300px !important;
-          }
-        }
-
-        @media (max-width: 576px) {
-          .carousel-inner .position-relative {
-            height: 250px !important;
-          }
-        }
-
-        .carousel-caption {
-          background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
-          padding: 2rem;
-          border-radius: 0.5rem;
-        }
-
-        .carousel-control-prev,
-        .carousel-control-next {
-          width: 5%;
-        }
-
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-          width: 2rem;
-          height: 2rem;
-        }
-      `}</style>
-    </div>
+    </>
   );
 }
